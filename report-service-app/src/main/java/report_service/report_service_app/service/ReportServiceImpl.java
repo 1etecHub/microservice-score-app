@@ -3,18 +3,22 @@ package report_service.report_service_app.service;
 
 import lombok.RequiredArgsConstructor;
 import report_service.report_service_app.dto.Subject;
+import report_service.report_service_app.feign.ReportFeignInterface;
 
 import java.util.Arrays;
+import java.util.Optional;
 
 
 @RequiredArgsConstructor
-public class ReportServiceImpl {
+public class ReportServiceImpl implements ReportService{
 
 
-    private ScoreServiceClient scoreServiceClient;
+    private ReportFeignInterface reportFeignInterface;
 
+    @Override
     public int calculateMean(long studentRegNo) {
-        Subject subject = scoreServiceClient.getSubjectByStudentRegNo(studentRegNo);
+
+        Subject subject = reportFeignInterface.getSubjectScoreByStudentRegNo(studentRegNo);
         if (subject == null) {
             // Handle case where subject is not found for studentRegNo
             return 0; // Or throw an exception or return an appropriate value
@@ -26,8 +30,9 @@ public class ReportServiceImpl {
         return sum / scores.length;
     }
 
+    @Override
     public int calculateMedian(int studentRegNo) {
-        Subject subject = scoreServiceClient.getSubjectByStudentRegNo(studentRegNo);
+        Subject subject = reportFeignInterface.getSubjectScoreByStudentRegNo(studentRegNo);
         if (subject == null) {
             // Handle case where subject is not found for studentRegNo
             return 0; // Or throw an exception or return an appropriate value
@@ -44,8 +49,10 @@ public class ReportServiceImpl {
         }
     }
 
+    @Override
     public int calculateMode(int studentRegNo) {
-        Subject subject = scoreServiceClient.getSubjectByStudentRegNo(studentRegNo);
+
+        Subject subject = reportFeignInterface.getSubjectScoreByStudentRegNo(studentRegNo);
         if (subject == null) {
             // Handle case where subject is not found for studentRegNo
             return 0; // Or throw an exception or return an appropriate value

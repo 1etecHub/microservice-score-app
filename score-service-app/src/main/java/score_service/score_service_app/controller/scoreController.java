@@ -14,19 +14,20 @@ import java.util.Map;
 
 @RequiredArgsConstructor
 @RestController
+@RequestMapping("app/scores")
 public class scoreController {
 
 
     private final ScoreService scoreService;
 
-    @PostMapping("/scores")
+    @PostMapping("/addScores")
     public ResponseEntity<String> addScores(@RequestBody ScoreDto scoreDTO) {
         scoreService.addScores(scoreDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body("Scores added successfully");
     }
 
 
-    @GetMapping("/{studentRegNo}")
+    @GetMapping("getSubjectScore/{studentRegNo}")
     public ResponseEntity<GenericResponse<Map<String, Integer>>> getSubjectScoreByStudentRegNo(@PathVariable long studentRegNo) {
         ResponseEntity<GenericResponse<Map<String, Integer>>> responseEntity;
 

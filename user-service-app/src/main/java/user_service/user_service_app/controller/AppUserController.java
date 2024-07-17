@@ -13,20 +13,18 @@ import user_service.user_service_app.dto.response.GenericResponse;
 import user_service.user_service_app.service.userService.userService.AppUserService;
 import user_service.user_service_app.utils.PasswordValidator;
 
-import java.util.List;
+import java.util.Map;
 
 
 @RestController
 @RequiredArgsConstructor
 @Slf4j
-@RequestMapping("/app")
+@RequestMapping("/app/Users")
 public class AppUserController {
 
 
     private final AppUserService appUserService;
     private final PasswordValidator passwordValidator;
-    private final ReportService reportService;
-    private final ScoreService scoreService;
 
     @PostMapping(path = "/registerStudent")
     public ResponseEntity<?> registerStudent(@RequestBody @Valid RegistrationRequest request) {
@@ -37,15 +35,35 @@ public class AppUserController {
     }
 
     @PostMapping("create")
-    public ResponseEntity<String> enterScores (@RequestBody ScoreDto ScoreDto){
-        scoreService.addScores(scoreDto);
+    public ResponseEntity<String> enterScores (@RequestBody ScoreDto scoreDto){
+        appUserService.addScores(scoreDto);
         return ResponseEntity.status(HttpStatus.CREATED).body("Scores added successfully");
     }
 
-    @PostMapping("get/{id}")
-    public ResponseEntity<StudentReportDto> getReport(@PathVariable Integer registrationNumber){
-        StudentReportDto studentReport = reportService.generateStudentReport(registrationNumber);
-        return ResponseEntity.ok(studentReport);
+    @PostMapping("get/{registrationNumber}")
+    public ResponseEntity<GenericResponse<Map<String, Integer>>> getStudentScore(@PathVariable("registrationNumber") long registrationNumber) {
+        GenericResponse<Map<String, Integer>> studentReport = appUserService.getStudentScore(registrationNumber);
+        if (studentReport == null) {
+            return ResponseEntity.notFound().build();
+        } else {
+            return ResponseEntity.ok(studentReport);
+        }
+    }
+
+
+    @GetMapping("/mean/{studentRegNo}")
+    public ResponseEntity<GenericResponse<Integer>> getMeanScore(@PathVariable long studentRegNo) {
+        return appUserService.getMeanScore(studentRegNo);
+    }
+
+    @GetMapping("/median/{studentRegNo}")
+    public ResponseEntity<Integer> getMedianScore(@PathVariable long studentRegNo) {
+        return appUserService.getMedianScore(studentRegNo);
+    }
+
+    @GetMapping("/mode/{studentRegNo}")
+    public ResponseEntity<Integer> getModeScore(@PathVariable long studentRegNo) {
+        return appUserService.getModeScore(studentRegNo);
     }
 
 
