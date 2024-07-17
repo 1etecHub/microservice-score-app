@@ -1,13 +1,15 @@
 package score_service.score_service_app.service;
 
-import score_service.score_service_app.dto.reponse.GenericResponse;
-import score_service.score_service_app.entities.Course;
+import score_service.score_service_app.dto.request.ScoreDto;
+import score_service.score_service_app.entities.Subject;
 
 public interface ScoreService {
 
-    /*teacher>>add student score acc to student regno
-    score serv calculate the mean median mode of the score acc to student regno
-    reportserv>>get the score data from scorerepo according to student regno*/
 
+
+    void addScores(ScoreDto scoreDTO);
+
+
+    Subject getSubjectByStudentRegNo(double studentRegNo);
 
 }
