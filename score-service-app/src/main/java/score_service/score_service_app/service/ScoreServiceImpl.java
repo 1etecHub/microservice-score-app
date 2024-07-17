@@ -2,11 +2,15 @@ package score_service.score_service_app.service;
 
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import score_service.score_service_app.dto.reponse.GenericResponse;
 import score_service.score_service_app.dto.request.ScoreDto;
 import score_service.score_service_app.entities.Subject;
 import score_service.score_service_app.repository.SubjectRepository;
 
-import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 public class ScoreServiceImpl implements ScoreService {
@@ -29,8 +33,22 @@ public class ScoreServiceImpl implements ScoreService {
     }
 
     @Override
-    public Subject getSubjectByStudentRegNo(double studentRegNo) {
-        return null;
+    public GenericResponse<Map<String, Integer>> getSubjectScoreByStudentRegNo(long studentRegNo) {
+        Optional<Subject> subjectOptional = subjectRepository.findByStudentRegNo(studentRegNo);
+        if (subjectOptional == null) {
+            // Handle case where subject is not found for studentRegNo
+            return new GenericResponse<>("scores not found for student with RegNo", HttpStatus.BAD_REQUEST);
+        }
+        Subject subject = subjectOptional.get();
+
+        Map<String, Integer> scoresMap = new HashMap<>();
+        scoresMap.put("English", subject.getEnglishScore());
+        scoresMap.put("Mathematics", subject.getMathematicsScore());
+        scoresMap.put("Physics", subject.getPhysicsScore());
+        scoresMap.put("Computer", subject.getComputerScore());
+        scoresMap.put("Chemistry", subject.getChemistryScore());
+
+        return new GenericResponse<>("scores retrieved successfully!!", scoresMap, HttpStatus.OK);
     }
 
 

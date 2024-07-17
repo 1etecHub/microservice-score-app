@@ -2,6 +2,10 @@ package report_service.report_service_app.service;
 
 
 import lombok.RequiredArgsConstructor;
+import report_service.report_service_app.dto.Subject;
+
+import java.util.Arrays;
+
 
 @RequiredArgsConstructor
 public class ReportServiceImpl {
@@ -9,9 +13,7 @@ public class ReportServiceImpl {
 
     private ScoreServiceClient scoreServiceClient;
 
-    private ScoreServiceClient scoreServiceClient;
-
-    public int calculateMean(int studentRegNo) {
+    public int calculateMean(long studentRegNo) {
         Subject subject = scoreServiceClient.getSubjectByStudentRegNo(studentRegNo);
         if (subject == null) {
             // Handle case where subject is not found for studentRegNo

@@ -2,19 +2,38 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
       <profile name="Maven default annotation processors profile" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="scores-of-student (1)" />
-        <module name="scores-of-student (2)" />
+        <module name="apiGateway" />
+        <module name="score-service-app" />
+        <module name="report-service-app" />
+        <module name="scores-of-student" />
+        <module name="user-service-app" />
+        <module name="serviceRegistry" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="api-gateway" target="17" />
+      <module name="scores-of-student (1)" target="17" />
+      <module name="scores-of-student (2)" target="17" />
+      <module name="service-registry" target="17" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="api-gateway" options="-parameters" />
+      <module name="apiGateway" options="-parameters" />
+      <module name="report-service-app" options="-parameters" />
+      <module name="score-service-app" options="-parameters" />
+      <module name="scores-of-student" options="-parameters" />
       <module name="scores-of-student (1)" options="-parameters" />
       <module name="scores-of-student (2)" options="-parameters" />
+      <module name="service-registry" options="-parameters" />
+      <module name="serviceRegistry" options="-parameters" />
+      <module name="user-service-app" options="-parameters" />
     </option>
   </component>
 </project>
